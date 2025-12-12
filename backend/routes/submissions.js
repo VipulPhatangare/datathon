@@ -16,14 +16,11 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 });
 
-// Apply auth middleware to all routes
-router.use(requireAuth);
-
 /**
  * POST /api/submissions/upload
  * Upload and evaluate a CSV submission
  */
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -176,7 +173,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
  * GET /api/submissions
  * Get user's own submissions
  */
-router.get('/', async (req, res) => {
+router.get('/', requireAuth, async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -197,7 +194,7 @@ router.get('/', async (req, res) => {
  * GET /api/submissions/:id
  * Get detailed submission info
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
@@ -223,7 +220,7 @@ router.get('/:id', async (req, res) => {
  * GET /api/submissions/best
  * Get user's best submission
  */
-router.get('/user/best', async (req, res) => {
+router.get('/user/best', requireAuth, async (req, res) => {
   try {
     const userId = req.user.id;
 
