@@ -44,8 +44,12 @@ export const adminAPI = {
   uploadAnswerCSV: (file) => {
     const formData = new FormData();
     formData.append('file', file);
+    const token = localStorage.getItem('token');
     return api.post('/admin/answer-csv', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
     });
   },
   getAnswerCSV: () => api.get('/admin/answer-csv'),
@@ -63,8 +67,12 @@ export const submissionAPI = {
   upload: (file) => {
     const formData = new FormData();
     formData.append('file', file);
+    const token = localStorage.getItem('token');
     return api.post('/submissions/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
     });
   },
   getMySubmissions: () => api.get('/submissions'),
