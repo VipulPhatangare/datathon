@@ -5,11 +5,25 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // Important for session cookies
   headers: {
     'Content-Type': 'application/json'
   }
 });
+
+// Set auth token helper
+export const setAuthToken = (token) => {
+  if (token) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common['Authorization'];
+  }
+};
+
+// Set token from localStorage on page load
+const token = localStorage.getItem('token');
+if (token) {
+  setAuthToken(token);
+}
 
 // Auth API
 export const authAPI = {

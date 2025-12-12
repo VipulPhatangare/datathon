@@ -44,7 +44,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const userSubmissionCount = await Submission.countDocuments({ userId });
     
     // Get user's upload limit (user-specific or global default)
-    let uploadLimit = req.session.user.uploadLimit;
+    let uploadLimit = req.user.uploadLimit;
     if (uploadLimit === null || uploadLimit === undefined) {
       const config = await Config.findOne({ key: 'defaultUploadLimit' });
       uploadLimit = config ? config.value : 15; // Default to 15
@@ -178,7 +178,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
  */
 router.get('/', async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const submissions = await Submission.find({ userId })
       .sort({ attemptNumber: -1 })
@@ -200,7 +200,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const submission = await Submission.findOne({ 
       _id: id,
@@ -225,7 +225,7 @@ router.get('/:id', async (req, res) => {
  */
 router.get('/user/best', async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const bestSubmission = await Submission.findOne({ userId })
       .sort({ accuracy: -1, f1: -1 })

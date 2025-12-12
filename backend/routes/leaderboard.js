@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 50;
     const includeRank = req.query.includeRank === 'true';
-    const currentUserId = req.session?.user?.id;
+    const currentUserId = req.user?.id;
 
     // Aggregate best submission for each user
     // Group by userId and get max accuracy and f1 for each user

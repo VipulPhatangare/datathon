@@ -161,7 +161,7 @@ router.delete('/users/:id', async (req, res) => {
     const { id } = req.params;
 
     // Prevent deleting yourself
-    if (id === req.session.user.id) {
+    if (id === req.user.id) {
       return res.status(400).json({ error: 'Cannot delete your own account' });
     }
 
@@ -235,7 +235,7 @@ router.post('/answer-csv', upload.single('file'), async (req, res) => {
     // Save new answer CSV
     const answerCSV = new AnswerCSV({
       filename: req.file.originalname,
-      uploadedBy: req.session.user.id,
+      uploadedBy: req.user.id,
       data,
       columns
     });
