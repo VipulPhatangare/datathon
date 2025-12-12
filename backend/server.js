@@ -45,6 +45,14 @@ app.use(session({
   }
 }));
 
+// Debug middleware - log session info
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  console.log('Session ID:', req.sessionID);
+  console.log('Session User:', req.session?.user);
+  next();
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
