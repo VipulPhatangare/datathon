@@ -26,7 +26,7 @@ router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     // 1. Check if answer CSV exists
     const answerCSV = await AnswerCSV.findOne();
