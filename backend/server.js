@@ -41,8 +41,7 @@ app.use(session({
     secure: process.env.NODE_ENV === 'production', // HTTPS only in production
     httpOnly: true,
     maxAge: parseInt(process.env.SESSION_COOKIE_MAXAGE) || 86400000, // 24 hours
-    sameSite: 'lax', // Changed from 'none' to 'lax' for same-origin requests
-    domain: process.env.NODE_ENV === 'production' ? '.synthomind.cloud' : undefined
+    sameSite: 'lax' // Same-origin cookies
   }
 }));
 
